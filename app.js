@@ -7,6 +7,11 @@ const helmet = require('helmet');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const todoRouter = require('./routes/todoslist');
+const ejs = require('ejs');
+ejs.delimiter = '/';
+ejs.openDelimiter = '[';
+ejs.closeDelimiter = ']';
+
 var app = express();
 
 // view engine setup
@@ -27,23 +32,10 @@ app.use('/todolist',todoRouter);
 
 
 
-
-
-
-
-
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-
-
-
-
-
 
 
 
