@@ -7,6 +7,8 @@
 - npm run start
 - npm run devcss
 
+**if you need more frontend module(CDN), insert in views/head.cjs**
+
 
 ### Happy Hacking!
 
