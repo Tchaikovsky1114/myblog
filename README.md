@@ -2,7 +2,7 @@
 ## this project installed by express generator + self installed helmet
 
 ## Launch
-- clone [your project]
+- git clone in [your project]
 - npm install
 - npm run start
 - npm run devcss
