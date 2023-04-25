@@ -30,8 +30,8 @@
             <input class="todo-check[/= index /]" type="checkbox"/>
           </form>
           <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
-          <button  data-id="[/= item.id /]" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
-          <a href="/todolist/deletetodo/[/= item.id /]" data-id="[/= item.id /]" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
+          <button data-id="[/= item.id /]" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
+          <a href="/todolist/deletetodo/[/= item.id /]"   class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
         </div>
         </li>
         [/ }) /]
@@ -72,29 +72,12 @@
 
     completeButtonList.forEach((button,index) => {
       button.addEventListener('click', () => {
-        // 해당 todo에 언더라인
         const todoId = button.getAttribute('data-id');
         checkCompleteTodo(todos,todoId);
-        // const foundTodo = todos.find((todo) => todo.id === +todoId)
-        // foundTodo.completed = true;
-        // console.log('foundTodo',foundTodo)
       })
     })
     
-    //a로 이동.?
-    // deleteButtonList.forEach((button,index) => {
-    //   button.addEventListener('click', async () => {
-    //     // const deletedTodo = todos.filter((todo) => todo.id !== index)
-    //     await fetch('/todolist/deletetodo',{
-    //       method:'DELETE',
-    //       body: JSON.stringify({
-    //         todoIndex: index
-    //       })
-    //     })
-    //   })
-    // })
 
-    // util func
     const checkCompleteTodo = (target = [],todoId) => {
       todos.forEach((todo) => {
           if(todo.id === +todoId){

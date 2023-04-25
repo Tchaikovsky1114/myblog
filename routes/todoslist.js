@@ -23,25 +23,26 @@ router.post('/addtodo', (req, res, next) => {
   }else {
     res.redirect('/todolist?msg=fail');
   }
-  console.log(res.locals.msg);
 })
 
-router.put('/checkcompleted/:id',(req, res, next) => {
+router.put('/checkcompleted/:id',(req, res) => {
   const { id } = req.params
   console.log('id is', id);
   
 })
 
-router.get('/deletetodo/:id',(req, res, next) => {
+router.get('/deletetodo/:id',(req, res) => {
   const { id } = req.params;
-  console.log('===params===',id);
-  
   const deletedTodos = todos.filter(todo => todo.id !== +id )
-  // todos = deletedTodo;
-  // res.redirect('/todolist');
   todos = deletedTodos;
   res.locals.todos = deletedTodos
   res.redirect('/todolist')
+})
+
+router.get('/alldeletetodo',(req, res) => {
+  todos = []
+  res.locals.todos = todos
+  res.redirect('/todolist');
 })
 
 module.exports = router;
