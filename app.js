@@ -18,15 +18,45 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+
+
+
 app.use(helmet());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+
+app.use('/todolist',(req, res, next) => {
+  
+  if(req.query.msg === 'fail') {
+    res.locals.msg = `빈 공백은 사용 불가합니다.`;
+  }else{
+    // undefined로 인한 오류 방지....
+    res.locals.msg = ``;
+  }
+  next();
+})
 app.use('/todolist',todoRouter);
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -36,12 +66,6 @@ app.use('/todolist',todoRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-
-
-
-
-
 
 // error handler
 app.use(function(err, req, res, next) {

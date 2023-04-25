@@ -10,63 +10,86 @@
     <div class="flex flex-col justify-center items-center mt-20">
     <h2>오늘의 할일을 적어보세요</h2>
     <form class="mt-4 mb-4" action="/todolist/addtodo" method="post">
+      
       <input
         class="text-sm w-52 p-2 focus:bg-teal-100 focus:border-teal-400 focus:outline-teal-400"
         type="text"
         placeholder="ex) 퇴근 후 1시간 공부하기..."
         maxlength="20"
         name="title">
-      <button>추가</button>
+      <button class="border border-teal-400 bg-teal-200 rounded-lg p-2"><span class="text-white font-bold">추가</span></button>
     </form>
-    <ul class="w-full flex flex-col justify-center items-center">
-      
+    <p class="text-pink-500 text-sm">[/= msg /]</p>
+
+    <ul class="w-full flex flex-col justify-center items-center">  
       [/ todos.map((item,index) => { /]
-        <li id="todo" class=" w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-8">
-          <p class="flex-[0.7]">[/= item.title /]</p>
+        <li class="todo w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-12 border-b border-b-teal-400">
+          <p class="todo-title flex-[0.5]">[/= item.title /]</p>
           <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/[/= item.id /]" method="post">
             <input name="_method" type="hidden" value="PUT" />
             <input class="todo-check[/= index /]" type="checkbox"/>
           </form>
-          <div class="flex-[0.2]">
-          <button data-id="[/= item.id /]" class="complete-submit-button[/= index /] text-red-400 text-bold" style="display: none">완료</button>
+          <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
+          <button  data-id="[/= item.id /]" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
+          <button data-id="[/= item.id /]" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</button>
         </div>
         </li>
         [/ }) /]
     </ul>
+
+    <div class="mt-8 w-[30%] flex flex-row justify-end items-center gap-2">
+      <button class="px-4 py-2 border border-gray-600 rounded-md group hover:bg-sky-400 "><span class="text-gray-600 group-hover:text-white">완료목록저장</span></button>
+      <button class="px-4 py-2 border border-gray-600 rounded-md group hover:bg-red-400"><span class="text-gray-600 group-hover:text-white">전부삭제</span></button>
+    </div>
   </div>
   </body>
 
 
   <script>
     var todos = [/- JSON.stringify(todos) /]
-    const completeCheckboxList = document.querySelectorAll("input[type='checkbox']")
-    const completeSubmitButtonList = document.querySelectorAll('#todo button');
-
-    console.log(todos);
+    const todoList = document.querySelectorAll('.todo .todo-title')
+    const completeCheckboxList = document.querySelectorAll("input[type='checkbox']");
+    const completeButtonList = document.querySelectorAll('.todo .complete-button');
+    const deleteButtonList = document.querySelectorAll('.todo .delete-button');
     
     completeCheckboxList.forEach((checkbox,index) => {
-      const button = completeSubmitButtonList[index];
+      const completeButton = completeButtonList[index];
+      const deleteButton = deleteButtonList[index];
       checkbox.addEventListener('change', () => {
         if(checkbox.checked) {
-          button.style.display = 'block';
+          completeButton.style.display = 'block';
+          deleteButton.style.display = 'block';
           checkbox.setAttribute('value', checkbox.checked)
           console.log(checkbox.value); 
         } else {
-          button.style.display = 'none';
+          completeButton.style.display = 'none';
+          deleteButton.style.display = 'none';
           checkbox.setAttribute('value', checkbox.checked)
           console.log(checkbox.value); 
         }
       })
     })
 
-    completeSubmitButtonList.forEach((button,index) => {
+    completeButtonList.forEach((button,index) => {
       button.addEventListener('click', () => {
-        // 해당 아이디 삭제
-        console.log(button.getAttribute('data-id'));
-        
+        // 해당 todo에 언더라인
+        const todoId = button.getAttribute('data-id');
+        checkCompleteTodo(todos,todoId);
+        // const foundTodo = todos.find((todo) => todo.id === +todoId)
+        // foundTodo.completed = true;
+        // console.log('foundTodo',foundTodo)
       })
     })
     
+    const checkCompleteTodo = (target = [],todoId) => {
+      todos.forEach((todo) => {
+          if(todo.id === +todoId){
+            todo.completed = !todo.completed;
+            todoList[todoId].classList.toggle('line-through')
+            todoList[todoId].classList.toggle('text-gray-300')
+          }
+        })
+      }
   </script>
 </html>
 
