@@ -3,7 +3,7 @@ var router = express.Router();
 const app = express();
 
 
-const todos = [];
+let todos = [];
 
 
 
@@ -31,4 +31,17 @@ router.put('/checkcompleted/:id',(req, res, next) => {
   console.log('id is', id);
   
 })
+
+router.get('/deletetodo/:id',(req, res, next) => {
+  const { id } = req.params;
+  console.log('===params===',id);
+  
+  const deletedTodos = todos.filter(todo => todo.id !== +id )
+  // todos = deletedTodo;
+  // res.redirect('/todolist');
+  todos = deletedTodos;
+  res.locals.todos = deletedTodos
+  res.redirect('/todolist')
+})
+
 module.exports = router;

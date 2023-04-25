@@ -31,7 +31,7 @@
           </form>
           <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
           <button  data-id="[/= item.id /]" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
-          <button data-id="[/= item.id /]" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</button>
+          <a href="/todolist/deletetodo/[/= item.id /]" data-id="[/= item.id /]" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
         </div>
         </li>
         [/ }) /]
@@ -81,6 +81,20 @@
       })
     })
     
+    //a로 이동.?
+    // deleteButtonList.forEach((button,index) => {
+    //   button.addEventListener('click', async () => {
+    //     // const deletedTodo = todos.filter((todo) => todo.id !== index)
+    //     await fetch('/todolist/deletetodo',{
+    //       method:'DELETE',
+    //       body: JSON.stringify({
+    //         todoIndex: index
+    //       })
+    //     })
+    //   })
+    // })
+
+    // util func
     const checkCompleteTodo = (target = [],todoId) => {
       todos.forEach((todo) => {
           if(todo.id === +todoId){
