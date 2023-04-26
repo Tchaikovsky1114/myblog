@@ -5,7 +5,19 @@
 <html>
   [/- include('head'); /]
   <body>
-    <h1 class="bg-red-300 text-indigo-400">[/= title /]</h1>
+    <div id="modal" style="display: none" class="w-full h-full absolute left-0 top-0 flex flex-col items-center justify-center bg-opacity-40 bg-gray-400">
+      <div class="bg-[#458bc5] shadow-md shadow-gray-400 rounded-md border border-white w-[400px] h-[200px] relative top-[-100px] p-3 flex flex-col items-center justify-between">
+          <div class="pl-3 text-white justify-between w-full flex flex-row">
+              <h2 class="flex-1 w-full flex justify-center">리스트를 전부 삭제하시겠어요?</h2>
+          </div>
+          
+          <div class="mt-5 py-3 text-white align-bottom">
+              <a href="/todolist/alldeletetodo" class="border hover:border-red-400 px-4 py-2">네, 삭제할게요</a>
+              <button id="cancel-alldelete-todo-button" class="border hover:border-yellow-500 px-4 py-2">아니요</button>
+          </div>
+      </div>
+  </div>
+    <a href="/" class="bg-red-300 text-indigo-400">HOME</a>
     
     <div class="flex flex-col justify-center items-center mt-20">
     <h2>오늘의 할일을 적어보세요</h2>
@@ -39,54 +51,15 @@
 
     <div class="mt-8 w-[30%] flex flex-row justify-end items-center gap-2">
       <button class="px-4 py-2 border border-gray-600 rounded-md group hover:bg-sky-400 "><span class="text-gray-600 group-hover:text-white">완료목록저장</span></button>
-      <button class="px-4 py-2 border border-gray-600 rounded-md group hover:bg-red-400"><span class="text-gray-600 group-hover:text-white">전부삭제</span></button>
+      <button id="all-delete-button" class="px-4 py-2 border border-gray-600 rounded-md group hover:bg-red-400"><span class="text-gray-600 group-hover:text-white">전부삭제</span></button>
     </div>
   </div>
   </body>
 
-
   <script>
+    //locals로 받아오는 변수는 다른 스크립트로 분할 불가
     var todos = [/- JSON.stringify(todos) /]
-    const todoList = document.querySelectorAll('.todo .todo-title')
-    const completeCheckboxList = document.querySelectorAll("input[type='checkbox']");
-    const completeButtonList = document.querySelectorAll('.todo .complete-button');
-    const deleteButtonList = document.querySelectorAll('.todo .delete-button');
-    
-    completeCheckboxList.forEach((checkbox,index) => {
-      const completeButton = completeButtonList[index];
-      const deleteButton = deleteButtonList[index];
-      checkbox.addEventListener('change', () => {
-        if(checkbox.checked) {
-          completeButton.style.display = 'block';
-          deleteButton.style.display = 'block';
-          checkbox.setAttribute('value', checkbox.checked)
-          console.log(checkbox.value); 
-        } else {
-          completeButton.style.display = 'none';
-          deleteButton.style.display = 'none';
-          checkbox.setAttribute('value', checkbox.checked)
-          console.log(checkbox.value); 
-        }
-      })
-    })
-
-    completeButtonList.forEach((button,index) => {
-      button.addEventListener('click', () => {
-        const todoId = button.getAttribute('data-id');
-        checkCompleteTodo(todos,todoId);
-      })
-    })
-    
-
-    const checkCompleteTodo = (target = [],todoId) => {
-      todos.forEach((todo) => {
-          if(todo.id === +todoId){
-            todo.completed = !todo.completed;
-            todoList[todoId].classList.toggle('line-through')
-            todoList[todoId].classList.toggle('text-gray-300')
-          }
-        })
-      }
   </script>
+  <script type="text/javascript" src="/javascripts/todolist.js"></script>
 </html>
 
