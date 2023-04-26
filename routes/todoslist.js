@@ -4,13 +4,14 @@ const app = express();
 
 
 let todos = [];
-
+let completedTodos = []
 
 
 router.get('/', function(req, res, next) {
   res.render('todolist', {
     title: `Todo-list`,
     todos,
+    completedTodos
   });
 });
 
@@ -43,6 +44,25 @@ router.get('/alldeletetodo',(req, res) => {
   todos = []
   res.locals.todos = todos
   res.redirect('/todolist');
+})
+
+router.get('/completetodo',(req, res) => {
+  res.locals.todos = todos;
+  res.status(200).json({
+    todos,
+    completedTodos,
+  })
+})
+
+router.post('/completetodo', (req, res) => {
+  const {completeTodos, oldTodos} = req.body;
+  const updateOldTodo = oldTodos.filter((item) => 
+  !completeTodos.some((completeTodo) => completeTodo.id === item.id));
+
+  todos = updateOldTodo;
+  completedTodos = [...completedTodos,...completeTodos];
+
+  res.status(200).json({message: '정상적으로 전송되었습니다.'});
 })
 
 module.exports = router;
