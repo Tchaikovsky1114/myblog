@@ -129,10 +129,9 @@ const getCompleteTodo = () => {
         unCompletedTodoList.innerHTML = todos.map((todo) => /*html*/`
           <li class="todo w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-12 border-b border-b-teal-400">
           <p class="todo-title flex-[0.5]">${todo.title}</p>
-          <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/${todo.id}" method="post">
-            <input name="_method" type="hidden" value="PUT" />
+          <div class="flex-[0.1] min-w-max">
             <input class="todo-check${todo.id}" type="checkbox"/>
-          </form>
+          </div>
           <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
           <button data-id="${todo.id}" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
           <a href="/todolist/deletetodo/${todo.id}" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
@@ -143,7 +142,7 @@ const getCompleteTodo = () => {
         const completeCheckboxList = document.querySelectorAll("input[type='checkbox']");
         const completeButtonList = document.querySelectorAll('.todo .complete-button');
         const deleteButtonList = document.querySelectorAll('.todo .delete-button');
-        const todoTitle = document.querySelectorAll('.todo .todo-title')
+        
         completeCheckboxList.forEach((checkbox,index) => {
           const completeButton = completeButtonList[index];
           const deleteButton = deleteButtonList[index];
