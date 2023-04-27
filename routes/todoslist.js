@@ -1,11 +1,9 @@
 var express = require('express');
 var router = express.Router();
-const app = express();
-
+const dayjs = require('dayjs');
 
 let todos = [];
 let completedTodos = []
-
 
 router.get('/', function(req, res, next) {
   res.render('todolist', {
@@ -54,15 +52,27 @@ router.get('/completetodo',(req, res) => {
   })
 })
 
+const recordToday = (completeTodos = []) => {
+  const recordedTodayTodos = completeTodos.map((todo) => {
+    return {
+      ...todo,
+      createdAt: todo.today = dayjs().format('YYYY년 MM월 DD일').toString()
+    }
+  })
+  return recordedTodayTodos
+}
+
 router.post('/completetodo', (req, res) => {
   const {completeTodos, oldTodos} = req.body;
   const updateOldTodo = oldTodos.filter((item) => 
   !completeTodos.some((completeTodo) => completeTodo.id === item.id));
-
+  const recordedTodayTodos = recordToday(completeTodos)
+  console.log(recordedTodayTodos);
   todos = updateOldTodo;
-  completedTodos = [...completedTodos,...completeTodos];
+  completedTodos = [...completedTodos,...recordedTodayTodos];
 
   res.status(200).json({message: '정상적으로 전송되었습니다.'});
 })
+
 
 module.exports = router;

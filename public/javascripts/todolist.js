@@ -34,8 +34,10 @@ completeButtonList.forEach((button,index) => {
 
 
 const checkCompleteTodo = (todoId) => {
+  console.log('isChecked');
   todos.forEach((todo) => {
       if(todo.id === +todoId){
+        console.log(todoList[todoId])
         todo.completed = !todo.completed;
         todoList[todoId].classList.toggle('line-through')
         todoList[todoId].classList.toggle('text-gray-300')
@@ -91,6 +93,46 @@ const getCompleteTodo = () => {
         todos = data.todos
         completedTodos = data.completedTodos
 
+        // 완료한 투두 그리기
+        const completedList = document.querySelector('#completed-todo-list');
+        completedList.innerHTML = '';
+        completedList.innerHTML =  completedTodos.map((item) => /*html*/`
+        <li class="flex flex-row gap-4 px-4 items-baseline justify-center">
+        <p class="text-xl">
+          <span class="">
+            ${item.title}
+          </span>
+        </p>
+        <p class="text-xs">
+          <span class="text-gray-400">
+            ${item.createdAt}
+          </span>
+        </p>
+      </li>
+        `)
+        .join('');
+        // <h3 class="font-bold">My History</h3>
+        const completedListTitle = document.createElement('h3');
+        completedListTitle.textContent = 'My History';
+        completedListTitle.style.fontWeight = 'bold';
+        completedList.insertAdjacentElement('afterbegin',completedListTitle)
+
+        // 기존 투두 그리기
+        const unCompletedTodoList = document.querySelector('#uncompleted-todo-list');
+        unCompletedTodoList.innerHTML = '';
+        unCompletedTodoList.innerHTML = todos.map((todo,index) => /*html*/`
+          <li class="todo w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-12 border-b border-b-teal-400">
+          <p class="todo-title flex-[0.5]">${ todo.title}</p>
+          <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/${ todo.id}" method="post">
+            <input name="_method" type="hidden" value="PUT" />
+            <input class="todo-check${index}" type="checkbox"/>
+          </form>
+          <div class="flex-[0.3] flex flex-row gap-2 todos-center justify-around">
+          <button data-id="${ todo.id}" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
+          <a href="/todolist/deletetodo/${ todo.id}"   class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
+        </div>
+        </li>
+        `).join('');
       })
       .catch((error) => console.error(error));
 }

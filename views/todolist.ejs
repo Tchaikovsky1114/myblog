@@ -16,15 +16,29 @@
           </div>
       </div>
   </div>
+  <div class="w-full">
     <a href="/" class="bg-red-300 text-indigo-400">HOME</a>
-    
+  </div>
+  <ul id="completed-todo-list" class="absolute top-20 left-4 min-h-[200px] border border-gray-300 px-8 py-2 rounded-md">
+    <h3 class="font-bold">My History</h3>
+    [/ completedTodos?.map((item) => { /]
+      <li class="flex flex-row gap-4 px-4 items-baseline justify-center">
+        <p class="text-xl">
+          <span class="">
+            [/= item.title /]
+          </span>
+        </p>
+        <p class="text-xs">
+          <span class="text-gray-400">
+            [/= item.createdAt /]
+          </span>
+        </p>
+      </li>
+    [/ }) /]
+  </ul>
     <div class="flex flex-col justify-center items-center mt-20">
     <h2>오늘의 할일을 적어보세요</h2>
-    <ul>
-      [/ completedTodos?.map((item) => { /]
-        <li>[/= item.title /]</li>
-      [/ }) /]
-    </ul>
+    
     <form class="mt-4 mb-4" action="/todolist/addtodo" method="post">
       
       <input
@@ -37,7 +51,7 @@
     </form>
     <p class="text-pink-500 text-sm">[/= msg /]</p>
 
-    <ul class="w-full flex flex-col justify-center items-center">  
+    <ul id="uncompleted-todo-list" class="w-full flex flex-col justify-center items-center">  
       [/ todos.map((item,index) => { /]
         <li class="todo w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-12 border-b border-b-teal-400">
           <p class="todo-title flex-[0.5]">[/= item.title /]</p>
