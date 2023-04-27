@@ -67,7 +67,8 @@ router.post('/completetodo', (req, res) => {
   const updateOldTodo = oldTodos.filter((item) => 
   !completeTodos.some((completeTodo) => completeTodo.id === item.id));
   const recordedTodayTodos = recordToday(completeTodos)
-  console.log(recordedTodayTodos);
+  
+  updateOldTodo.forEach((item,index) => item.id = index)
   todos = updateOldTodo;
   completedTodos = [...completedTodos,...recordedTodayTodos];
 

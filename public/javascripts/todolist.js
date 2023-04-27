@@ -1,49 +1,52 @@
 
-const todoList = document.querySelectorAll('.todo .todo-title')
-const completeCheckboxList = document.querySelectorAll("input[type='checkbox']");
-const completeButtonList = document.querySelectorAll('.todo .complete-button');
 const deleteButtonList = document.querySelectorAll('.todo .delete-button');
 const allDeleteBtn = document.querySelector('#all-delete-button');
 const submitAllDeleteModal = document.querySelector('#modal');
 const cancelAllDeleteTodoBtn = document.querySelector('#cancel-alldelete-todo-button')
 const submitAllCompletedButton = document.querySelector('#submit-all-completed-button')
-completeCheckboxList.forEach((checkbox,index) => {
-  const completeButton = completeButtonList[index];
-  const deleteButton = deleteButtonList[index];
-  checkbox.addEventListener('change', () => {
-    if(checkbox.checked) {
+const unCompletedTodoList = document.querySelector('#uncompleted-todo-list');
+
+unCompletedTodoList.addEventListener('click', (event) => {
+  console.log('deps 0');
+  if (event.target.matches('.todo-checkbox')) {
+    console.log('click todo-checkbox');
+      const checkbox = event.target;
+      const todo = event.target.closest('.todo');
+      const completeButton = todo.querySelector('.complete-button')
+      const deleteButton = todo.querySelector('.delete-button')
+    if(event.target.checked) {
+      console.log('checkbox if true');
       completeButton.style.display = 'block';
       deleteButton.style.display = 'block';
-      checkbox.setAttribute('value', checkbox.checked)
-      console.log(checkbox.value); 
-    } else {
+      checkbox.setAttribute('value', checkbox.checked);
+    }
+    if(!event.target.checked) {
+      console.log('checkbox if false');
       completeButton.style.display = 'none';
       deleteButton.style.display = 'none';
-      checkbox.setAttribute('value', checkbox.checked)
-      console.log(checkbox.value); 
+      checkbox.setAttribute('value', checkbox.checked);
     }
-  })
-})
-
-completeButtonList.forEach((button,index) => {
-  button.addEventListener('click', () => {
-    const todoId = button.getAttribute('data-id');
-    checkCompleteTodo(todoId);
-  })
-})
-
-
-const checkCompleteTodo = (todoId) => {
-  console.log('isChecked');
-  todos.forEach((todo) => {
-      if(todo.id === +todoId){
-        console.log(todoList[todoId])
-        todo.completed = !todo.completed;
-        todoList[todoId].classList.toggle('line-through')
-        todoList[todoId].classList.toggle('text-gray-300')
-      }
-    })
+  } else if (event.target.matches('.complete-button')) {
+    console.log('click completebutton');
+    const todo = event.target.closest('.todo');
+    const todoTitle = todo.querySelector('.todo-title')
+    
+    const todoId = event.target.getAttribute('data-id');
+    todos[todoId].completed = !todos[todoId].completed;
+    // event.target.completed = !event.target.completed;
+    
+    if(todos[todoId].completed) {
+      todoTitle.style.textDecoration = 'line-through';
+      todoTitle.style.color = '#ccc';
+    }
+    if(!todos[todoId].completed) {
+      todoTitle.style.textDecoration = 'none'  
+      todoTitle.style.color = '#000';
+    }
+    console.log(todoTitle);
   }
+});
+
 
 allDeleteBtn.addEventListener('click', () => {
   submitAllDeleteModal.style.display = 'flex';
@@ -55,6 +58,10 @@ cancelAllDeleteTodoBtn.addEventListener('click', () => {
 
 submitAllCompletedButton.addEventListener('click', () => {
     const completeTodos = todos.filter((todo) => todo.completed);
+    if(completeTodos.length === 0) {
+      alert('한개 이상 완료해주세요');
+      return;
+    }    
   fetch('/todolist/completetodo',
       {  
         headers: {
@@ -68,10 +75,9 @@ submitAllCompletedButton.addEventListener('click', () => {
       })
       .then((response) => {
         return response.json()
-        
       })
       .then((data) => {
-        console.log(data);
+        console.log('success',data);
         getCompleteTodo();
       })
       .catch((error) => console.error(error));
@@ -92,7 +98,7 @@ const getCompleteTodo = () => {
       .then((data) => {
         todos = data.todos
         completedTodos = data.completedTodos
-
+        
         // 완료한 투두 그리기
         const completedList = document.querySelector('#completed-todo-list');
         completedList.innerHTML = '';
@@ -118,42 +124,53 @@ const getCompleteTodo = () => {
         completedList.insertAdjacentElement('afterbegin',completedListTitle)
 
         // 기존 투두 그리기
-        const unCompletedTodoList = document.querySelector('#uncompleted-todo-list');
+        
         unCompletedTodoList.innerHTML = '';
-        unCompletedTodoList.innerHTML = todos.map((todo,index) => /*html*/`
+        unCompletedTodoList.innerHTML = todos.map((todo) => /*html*/`
           <li class="todo w-[30%] pl-4 flex justify-start items-center flex-row gap-4 h-12 border-b border-b-teal-400">
-          <p class="todo-title flex-[0.5]">${ todo.title}</p>
-          <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/${ todo.id}" method="post">
+          <p class="todo-title flex-[0.5]">${todo.title}</p>
+          <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/${todo.id}" method="post">
             <input name="_method" type="hidden" value="PUT" />
-            <input class="todo-check${index}" type="checkbox"/>
+            <input class="todo-check${todo.id}" type="checkbox"/>
           </form>
-          <div class="flex-[0.3] flex flex-row gap-2 todos-center justify-around">
-          <button data-id="${ todo.id}" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
-          <a href="/todolist/deletetodo/${ todo.id}"   class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
+          <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
+          <button data-id="${todo.id}" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
+          <a href="/todolist/deletetodo/${todo.id}" class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
         </div>
         </li>
         `).join('');
+       
+        const completeCheckboxList = document.querySelectorAll("input[type='checkbox']");
+        const completeButtonList = document.querySelectorAll('.todo .complete-button');
+        const deleteButtonList = document.querySelectorAll('.todo .delete-button');
+        const todoTitle = document.querySelectorAll('.todo .todo-title')
+        completeCheckboxList.forEach((checkbox,index) => {
+          const completeButton = completeButtonList[index];
+          const deleteButton = deleteButtonList[index];
+          checkbox.addEventListener('change', () => {
+            if(checkbox.checked) {
+              completeButton.style.display = 'block';
+              deleteButton.style.display = 'block';
+              checkbox.setAttribute('value', checkbox.checked)
+            } else {
+              completeButton.style.display = 'none';
+              deleteButton.style.display = 'none';
+              checkbox.setAttribute('value', checkbox.checked)
+            }
+          })
+        })
+        // 이 이벤트는 다시 부착할 필요가 없음
+        // 왜냐면, 사라지지 않았으니까..?
+        // 근데 위에서 다시 그렸는데.. 요소가 똑같다면.. 그리지 않는다는 것인가..?
+        // completeButtonList.forEach((button) => {
+        //   button.addEventListener('click', () => {
+        //     const todoId = button.getAttribute('data-id');
+        //     todos[todoId].completed = !todos[todoId].completed;
+        //     todoTitle[todoId].classList.toggle('line-through')
+        //     todoTitle[todoId].classList.toggle('text-gray-300')
+        //     console.log(todos[todoId]);
+        //   })
+        // })
       })
       .catch((error) => console.error(error));
 }
-
-
-
-// 템플릿을 수동으로 지워줘야함 - list.innerHTML = ''; 처럼.. 한번 지우고 then메서드 내에서 재작성
-// const addBtn = document.getElementById('add-btn');
-// addBtn.addEventListener('click', () => {
-//   // 새로운 요소를 추가하는 API 호출
-//   fetch('/add/newitem')
-//     .then(res => res.json())
-//     .then(data => {
-//       // 서버에서 받은 새로운 배열 데이터로 HTML을 업데이트
-//       const list = document.querySelector('ul');
-//       list.innerHTML = '';
-//       data.myArray.forEach(item => {
-//         const li = document.createElement('li');
-//         li.textContent = item;
-//         list.appendChild(li);
-//       });
-//     })
-//     .catch(err => console.log(err));
-// });

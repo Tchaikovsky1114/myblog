@@ -57,11 +57,15 @@
           <p class="todo-title flex-[0.5]">[/= item.title /]</p>
           <form class="flex-[0.1] min-w-max" action="/todolist/checkcompleted/[/= item.id /]" method="post">
             <input name="_method" type="hidden" value="PUT" />
-            <input class="todo-check[/= index /]" type="checkbox"/>
+            <input class="todo-checkbox todo-check[/= index /]" type="checkbox"/>
           </form>
           <div class="flex-[0.3] flex flex-row gap-2 items-center justify-around">
-          <button data-id="[/= item.id /]" class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
-          <a href="/todolist/deletetodo/[/= item.id /]"   class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
+          <button
+            data-id="[/= item.id /]"
+            class="complete-button text-indigo-400 border border-transparent hover:border-indigo-400 px-3 py-2 text-bold" style="display: none">완료</button>
+          <a
+            href="/todolist/deletetodo/[/= item.id /]"
+            class="delete-button text-red-400 border border-transparent hover:border-red-400 px-3 py-2 text-bold" style="display: none">삭제</a>
         </div>
         </li>
         [/ }) /]
