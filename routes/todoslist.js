@@ -27,7 +27,6 @@ router.post('/addtodo', (req, res, next) => {
 router.put('/checkcompleted/:id',(req, res) => {
   const { id } = req.params
   console.log('id is', id);
-  
 })
 
 router.get('/deletetodo/:id',(req, res) => {
@@ -64,16 +63,17 @@ const recordToday = (completeTodos = []) => {
 
 router.post('/completetodo', (req, res) => {
   const {completeTodos, oldTodos} = req.body;
+  
   const updateOldTodo = oldTodos.filter((item) => 
   !completeTodos.some((completeTodo) => completeTodo.id === item.id));
+
   const recordedTodayTodos = recordToday(completeTodos)
-  
+
   updateOldTodo.forEach((item,index) => item.id = index)
   todos = updateOldTodo;
   completedTodos = [...completedTodos,...recordedTodayTodos];
 
   res.status(200).json({message: '정상적으로 전송되었습니다.'});
 })
-
 
 module.exports = router;
