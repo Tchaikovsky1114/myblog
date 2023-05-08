@@ -39,6 +39,7 @@ app.use(helmet({
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
+    
   },
 }));
 // app.use((req, res, next) => {
@@ -46,6 +47,12 @@ app.use(helmet({
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //   next();
 // });
+// app.use((req, res, next) => {
+//   res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+//   res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+//   next();
+// });
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
