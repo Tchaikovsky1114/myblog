@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  [/- include('head'); /]
+    <body>
+      <h1>[/= title /] (Rich Text Editor)</h1>
+      <form
+        class="flex flex-col justify-center items-center"
+        action="/board/write"
+        method="POST"
+        >
+        <input class="border-b-2 border-teal-400 px-2 outline-none" type="text" name="title" placeholder="제목" />
+        <textarea placeholder="내용" class="p-4 text-base outline-teal-400" name="content" id="content" cols="30" rows="10"></textarea>
+        <button class="mt-2 py-2 px-4 bg-teal-400 text-white font-bold" type="submit">글쓰기</button>
+      </form>
+      <script></script>
+    </body>
+  </html>

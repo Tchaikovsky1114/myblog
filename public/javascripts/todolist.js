@@ -7,34 +7,27 @@ const submitAllCompletedButton = document.querySelector('#submit-all-completed-b
 const unCompletedTodoList = document.querySelector('#uncompleted-todo-list');
 
 unCompletedTodoList.addEventListener('click', (event) => {
-  console.log('deps 0');
   if (event.target.matches('.todo-checkbox')) {
-    console.log('click todo-checkbox');
       const checkbox = event.target;
       const todo = event.target.closest('.todo');
       const completeButton = todo.querySelector('.complete-button')
       const deleteButton = todo.querySelector('.delete-button')
     if(event.target.checked) {
-      console.log('checkbox if true');
       completeButton.style.display = 'block';
       deleteButton.style.display = 'block';
       checkbox.setAttribute('value', checkbox.checked);
     }
     if(!event.target.checked) {
-      console.log('checkbox if false');
       completeButton.style.display = 'none';
       deleteButton.style.display = 'none';
       checkbox.setAttribute('value', checkbox.checked);
     }
   } else if (event.target.matches('.complete-button')) {
-    console.log('click completebutton');
     const todo = event.target.closest('.todo');
     const todoTitle = todo.querySelector('.todo-title')
-    
     const todoId = event.target.getAttribute('data-id');
     todos[todoId].completed = !todos[todoId].completed;
-    // event.target.completed = !event.target.completed;
-    
+
     if(todos[todoId].completed) {
       todoTitle.style.textDecoration = 'line-through';
       todoTitle.style.color = '#ccc';

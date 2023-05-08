@@ -8,11 +8,10 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser')
 const cors = require('cors');
 
-
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const todoRouter = require('./routes/todoslist');
+const boardRouter = require('./routes/board');
 
 const ejs = require('ejs');
 ejs.delimiter = '/';
@@ -21,10 +20,13 @@ ejs.closeDelimiter = ']';
 
 var app = express();
 app.use(cors());
+
+
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 
 
 app.use(bodyParser.json());
@@ -44,13 +46,11 @@ app.use(helmet({
 //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 //   next();
 // });
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 app.use('/', indexRouter);
@@ -58,7 +58,6 @@ app.use('/users', usersRouter);
 
 
 app.use('/todolist',(req, res, next) => {
-  
   if(req.query.msg === 'fail') {
     res.locals.msg = `빈 공백은 사용 불가합니다.`;
   }else{
@@ -68,6 +67,7 @@ app.use('/todolist',(req, res, next) => {
   next();
 })
 app.use('/todolist',todoRouter);
+app.use('/board',boardRouter)
 
 
 
