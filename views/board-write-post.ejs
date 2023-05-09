@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' https://www.google-analytics.com">
-    <link rel='stylesheet' href='/stylesheets/quill.snow.css' type="text/css" />
+    <!-- <link rel='stylesheet' href='/stylesheets/quill.snow.css' type="text/css" /> -->
     <title>[/= title /]</title>
   </head>
   
@@ -61,11 +61,43 @@
         
         <!-- Create the editor container -->
         <div id="editor">
-        <p class="ql-align-center"><strong>Hello World!</strong> Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! <strong style="color: rgb(0, 97, 0);">Hello</strong> World! Hello World! Hello World! Hello World! Hello World! Hello World! <em>Hello</em> World! Hello World! <strong class="ql-font-monospace" style="background-color: rgb(255, 153, 0); color: rgb(0, 71, 178);">Hello World!</strong> Hello World! Hello World! Hello World! Hello World! Hello World! Hello <u>World</u>! Hello World! Hello World! Hello World! Hello <s>World</s>! Hello World! Hello World! Hello World!</p><p><br></p><blockquote>Hello again! <u>This is a block quote</u>.</blockquote><p><br></p><ol><li>one</li><li>two</li><li><a href="https://www.google/search?q=QuillJS" target="_blank">google</a></li></ol><p><br></p><ul><li>one</li><li>two</li><li>three</li></ul><p><br></p><pre spellcheck="false">// this is code.</pre><p class="ql-align-center"><img src="https://quilljs.com/images/browsers.png"></p><h1><span class="ql-font-monospace">Goodbye.</span></h1>
-        </div>
-        </div>
-        <p class="info">Kicking QuillJS around. <a href="https://github.com/quilljs/quill/" target="_blank">https://github.com/quilljs/quill/</a><br>Built with 1.0.0-beta.6</p>
+        <p class="ql-align-center">
+          <strong>Hello!</strong>
+          <strong style="color: rgb(0, 97, 0);">Hello!</strong>
+          <em>Hello</em>
+          <strong class="ql-font-monospace" style="background-color: rgb(255, 153, 0); color: rgb(0, 71, 178);">Hello World!</strong>
+          <u>World</u>
+          <s>World</s>
+        </p>
 
+         <blockquote>
+          Hello again!
+          <u>This is a block quote</u>
+        </blockquote>
+        <ol>
+          <li>one</li>
+          <li>two</li>
+          <li>
+            <a href="https://www.google/search?q=QuillJS" target="_blank">google</a>
+          </li>
+        </ol>
+        
+        <ul>
+          <li>one</li>
+          <li>two</li>
+          <li>three</li>
+        </ul>
+        <pre spellcheck="false">// this is code.</pre>
+        <p class="ql-align-center">
+          <img src="https://quilljs.com/images/browsers.png"></p>
+          <h1>
+            <span class="ql-font-monospace">Goodbye.</span>
+          </h1>
+          </div>
+        </div>
+        
+      
+      <script src="/javascripts/dist/quill.bundle.js"></script>
       <script src="/javascripts/dist/editor.bundle.js"></script>
     </div>
     </body>

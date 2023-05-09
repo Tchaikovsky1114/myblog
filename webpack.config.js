@@ -4,6 +4,7 @@ module.exports = {
   entry: {
     todolist:'./public/javascripts/todolist.js',
     editor:'./public/javascripts/editor.js',
+    quill: './public/javascripts/quill.js'
   }, // 번들링할 파일의 진입점을 설정합니다
   mode: 'development',
   resolve: {
@@ -32,6 +33,11 @@ module.exports = {
           }
         }, // babel-loader를 사용하여 ES6+ 문법을 변환합니다
       },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader'],
+      }
     ]
   },
   watch: true,
